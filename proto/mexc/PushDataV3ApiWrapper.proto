@@ -1,5 +1,5 @@
 syntax = "proto3";
-package mexc;
+package mexc_proto;
 import "PublicDealsV3Api.proto";
 import "PublicIncreaseDepthsV3Api.proto";
 import "PublicLimitDepthsV3Api.proto";

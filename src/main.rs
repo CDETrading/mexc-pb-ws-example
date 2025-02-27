@@ -7,12 +7,9 @@ use url::Url;
 use bytes::BytesMut;
 use prost::Message as ProstMessage;
 
-// Include the generated protobuf definitions.
-pub mod mexc {
-    include!(concat!(env!("OUT_DIR"), "/mexc.rs"));
-}
+include!(concat!(env!("OUT_DIR"), "/mexc_proto_build.rs"));
 
-use mexc::PublicBookTickerBatchV3Api;
+use mexc_proto::PublicBookTickerBatchV3Api;
 
 #[tokio::main]
 async fn main() {

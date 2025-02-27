@@ -1,20 +1,33 @@
-// build.rs
-extern crate glob;
-use glob::glob;
+use std::env;
+use std::error::Error;
+use std::fs;
+use std::path::PathBuf;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Collect all proto files.
-    let mut proto_files: Vec<String> = Vec::new();
-    for entry in glob("proto/mexc/*.proto")? {
-        if let Ok(path) = entry {
-            println!("cargo:rerun-if-changed={}", path.display());
-            proto_files.push(path.display().to_string());
-        }
+fn main() -> Result<(), Box<dyn Error>> {
+    let proto_root = "proto/mexc";
+    
+    // Recursively collect .proto files (or adjust as needed)
+    let proto_files: Vec<PathBuf> = fs::read_dir(proto_root)?
+        .filter_map(|entry| {
+            let entry = entry.ok()?;
+            let path = entry.path();
+            if path.extension()?.to_str()? == "proto" {
+                Some(path)
+            } else {
+                None
+            }
+        })
+        .collect();
+
+    for proto in &proto_files {
+        println!("cargo:rerun-if-changed={}", proto.display());
     }
 
-    // Configure prost to generate a single file (mexc.rs) in OUT_DIR.
+    let out_dir = env::var("OUT_DIR")?;
+
     let mut config = prost_build::Config::new();
-    config.include_file("mexc.rs"); // This tells prost to combine all generated modules into "mexc.rs"
-    config.compile_protos(&proto_files, &["proto/mexc"])?;
+    config.out_dir(&out_dir);
+    config.include_file("mexc_proto_build.rs"); // Rename output file here.
+    config.compile_protos(&proto_files, &[proto_root])?;
     Ok(())
 }

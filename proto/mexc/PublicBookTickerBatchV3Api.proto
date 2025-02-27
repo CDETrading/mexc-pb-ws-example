@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package mexc;
+package mexc_proto;
 
 // This wrapper message matches the full JSON message structure.
 message PublicBookTickerBatchV3Api {
