@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package mexc;
+
+// This wrapper message matches the full JSON message structure.
+message PublicBookTickerBatchV3Api {
+    string channel = 1;
+    string symbol = 2;
+    string sendTime = 3;
+    PublicBookTickerBatch publicBookTickerBatch = 4;
+}
+
+// The batch message holds the repeated items.
+message PublicBookTickerBatch {
+    repeated BookTickerItem items = 1;
+}
+
+// Each item with bid/ask details.
+message BookTickerItem {
+    string bidPrice = 1;
+    string bidQuantity = 2;
+    string askPrice = 3;
+    string askQuantity = 4;
+}

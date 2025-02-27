@@ -5,12 +5,13 @@ edition = "2024"
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
-tokio-tungstenite = "0.26.2"
-tungstenite = "0.26.2"
+tokio-tungstenite = { version = "0.26.2", features = ["native-tls"] }
+tungstenite = { version = "0.26.2", features = ["native-tls"] }
 futures-util = "0.3"
 url = "2"
 prost = "0.13.5"
 bytes = "1"
 
 [build-dependencies]
+glob = "0.3"
 prost-build = "0.13.5"
