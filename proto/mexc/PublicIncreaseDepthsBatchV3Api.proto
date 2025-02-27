@@ -1,6 +1,7 @@
 // spot@public.increase.depth.v3.api.pb
 
 syntax = "proto3";
+package mexc_proto;
 import "PublicIncreaseDepthsV3Api.proto";
 
 option java_package = "com.mxc.push.common.protobuf";

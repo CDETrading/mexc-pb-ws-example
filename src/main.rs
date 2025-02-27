@@ -9,7 +9,8 @@ use prost::Message as ProstMessage;
 
 include!(concat!(env!("OUT_DIR"), "/mexc_proto_build.rs"));
 
-use mexc_proto::PublicBookTickerBatchV3Api;
+use mexc_proto::*;
+// use mexc_proto::PublicAggreBookTickerV3Api;
 
 #[tokio::main]
 async fn main() {
@@ -24,7 +25,7 @@ async fn main() {
     // Prepare the subscription message.
     let subscribe_message = r#"{
         "method": "SUBSCRIPTION",
-        "params": ["spot@public.bookTicker.batch.v3.api.pb@BTCUSDT"]
+        "params": ["spot@public.aggre.bookTicker.v3.api.pb@10ms@BTCUSDT"]
     }"#;
 
     ws_stream
@@ -39,7 +40,7 @@ async fn main() {
         match msg {
             Ok(Message::Binary(bin)) => {
                 let mut buf = BytesMut::from(&bin[..]);
-                match PublicBookTickerBatchV3Api::decode(&mut buf) {
+                match PushDataV3ApiWrapper::decode(&mut buf) {
                     Ok(response) => {
                         println!("Deserialized Response: {:?}", response);
                     },
