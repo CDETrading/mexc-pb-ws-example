@@ -25,7 +25,7 @@ async fn main() {
     // Prepare the subscription message.
     let subscribe_message = r#"{
         "method": "SUBSCRIPTION",
-        "params": ["spot@public.aggre.bookTicker.v3.api.pb@10ms@BTCUSDT"]
+        "params": ["spot@public.bookTicker.batch.v3.api.pb@BTCUSDT"]
     }"#;
 
     ws_stream
